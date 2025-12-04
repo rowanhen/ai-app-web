@@ -28,7 +28,7 @@ function Home() {
 
       {/* Main Content - Centered Card */}
       <main>
-        <Card>
+        <Card title="Enter your Hyperliquid wallet address">
           <Text>Enter your Hyperliquid wallet address</Text>
           <Input
             placeholder="0x..."

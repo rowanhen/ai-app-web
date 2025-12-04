@@ -1,7 +1,10 @@
 {
   "name": "ai-app-web",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite dev",

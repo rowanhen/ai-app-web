@@ -10,6 +10,7 @@ export default defineConfig({
     modules: {
       localsConvention: "camelCase",
     },
+    devSourcemap: true,
   },
   plugins: [
     tsConfigPaths({
