@@ -7,6 +7,11 @@
  */
 
 export * from './badRequestResponse';
+export * from './deleteWalletsWalletId200';
+export * from './deleteWalletsWalletId200Data';
+export * from './enrichedTrade';
+export * from './enrichedTradeAllOf';
+export * from './enrichedTradeAllOfPythPrices';
 export * from './error';
 export * from './errorError';
 export * from './errorErrorDetails';
@@ -22,12 +27,24 @@ export * from './getTrades200Data';
 export * from './getTrades200DataTradesItem';
 export * from './getTradesTradeIdEnriched200';
 export * from './getTradesTradeIdEnriched200Data';
+export * from './getWallets200';
+export * from './getWallets200Data';
+export * from './getWallets200DataWalletsItem';
 export * from './internalServerErrorResponse';
 export * from './notFoundResponse';
 export * from './postAuthInitialize200';
 export * from './postAuthLogout200';
 export * from './postAuthLogout200Data';
+export * from './postWallets201';
+export * from './postWallets201Data';
+export * from './postWallets201DataUserWallet';
+export * from './postWallets201DataWallet';
+export * from './postWalletsBody';
+export * from './pythPriceData';
 export * from './successResponse';
 export * from './successResponseData';
+export * from './trade';
 export * from './unauthorizedResponse';
 export * from './userConfig';
+export * from './userWallet';
+export * from './wallet';

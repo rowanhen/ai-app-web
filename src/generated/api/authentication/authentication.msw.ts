@@ -29,7 +29,7 @@ export const getPostAuthInitializeResponseMock = (overrideResponse: Partial< Pos
 
 export const getGetAuthMeResponseMock = (overrideResponse: Partial< GetAuthMe200 > = {}): GetAuthMe200 => ({success: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), data: faker.helpers.arrayElement([{userId: faker.helpers.arrayElement([faker.string.uuid(), undefined]), email: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined]), authenticated: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), username: faker.helpers.arrayElement([faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), undefined])}, undefined]), ...overrideResponse})
 
-export const getPostAuthLogoutResponseMock = (overrideResponse: Partial< PostAuthLogout200 > = {}): PostAuthLogout200 => ({success: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), data: faker.helpers.arrayElement([{message: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined]), ...overrideResponse})
+export const getPostAuthLogoutResponseMock = (overrideResponse: Partial< PostAuthLogout200 > = {}): PostAuthLogout200 => ({success: faker.datatype.boolean(), data: {message: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, ...overrideResponse})
 
 
 export const getPostAuthInitializeMockHandler = (overrideResponse?: PostAuthInitialize200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<PostAuthInitialize200> | PostAuthInitialize200), options?: RequestHandlerOptions) => {

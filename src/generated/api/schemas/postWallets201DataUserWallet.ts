@@ -5,9 +5,5 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
-import type { EnrichedTrade } from './enrichedTrade';
 
-export type GetTradesTradeIdEnriched200 = {
-  success: boolean;
-  data: EnrichedTrade;
-};
+export type PostWallets201DataUserWallet = { [key: string]: unknown };

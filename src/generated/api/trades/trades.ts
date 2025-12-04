@@ -5,6 +5,9 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,320 +17,211 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
   BadRequestResponse,
   GetTrades200,
   GetTradesTradeIdEnriched200,
   NotFoundResponse,
-  UnauthorizedResponse,
-} from ".././schemas";
+  UnauthorizedResponse
+} from '.././schemas';
 
-import { customInstance } from "../../../app/config/mutator";
+import { customInstance } from '../../../app/config/mutator';
+
+
+
 
 /**
  * Fetches trades from Hyperliquid and stores them in the database.
-Requires an authenticated session (user must have linked OAuth account).
+Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
 
  * @summary Get user trades
  */
-export const getTrades = (signal?: AbortSignal) => {
-  return customInstance<GetTrades200>({
-    url: `/trades`,
-    method: "GET",
-    signal,
-  });
-};
+export const getTrades = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetTrades200>(
+      {url: `/trades`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getGetTradesQueryKey = () => {
-  return [`/trades`] as const;
-};
+    return [
+    `/trades`
+    ] as const;
+    }
 
-export const getGetTradesQueryOptions = <
-  TData = Awaited<ReturnType<typeof getTrades>>,
-  TError = BadRequestResponse | UnauthorizedResponse,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getGetTradesQueryOptions = <TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+) => {
 
-  const queryKey = queryOptions?.queryKey ?? getGetTradesQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getTrades>>> = ({
-    signal,
-  }) => getTrades(signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetTradesQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getTrades>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetTradesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getTrades>>
->;
-export type GetTradesQueryError = BadRequestResponse | UnauthorizedResponse;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTrades>>> = ({ signal }) => getTrades(signal);
 
-export function useGetTrades<
-  TData = Awaited<ReturnType<typeof getTrades>>,
-  TError = BadRequestResponse | UnauthorizedResponse,
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>
-    > &
-      Pick<
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTradesQueryResult = NonNullable<Awaited<ReturnType<typeof getTrades>>>
+export type GetTradesQueryError = BadRequestResponse | UnauthorizedResponse
+
+
+export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTrades>>,
           TError,
           Awaited<ReturnType<typeof getTrades>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetTrades<
-  TData = Awaited<ReturnType<typeof getTrades>>,
-  TError = BadRequestResponse | UnauthorizedResponse,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTrades>>,
           TError,
           Awaited<ReturnType<typeof getTrades>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetTrades<
-  TData = Awaited<ReturnType<typeof getTrades>>,
-  TError = BadRequestResponse | UnauthorizedResponse,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get user trades
  */
 
-export function useGetTrades<
-  TData = Awaited<ReturnType<typeof getTrades>>,
-  TError = BadRequestResponse | UnauthorizedResponse,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetTradesQueryOptions(options);
+export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getGetTradesQueryOptions(options)
 
-  query.queryKey = queryOptions.queryKey;
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
 }
 
+
+
+
 /**
  * Get enriched trade with Pyth price data.
-Requires an authenticated session (user must have linked OAuth account).
+Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
 
  * @summary Get enriched trade
  */
 export const getTradesTradeIdEnriched = (
-  tradeId: string,
-  signal?: AbortSignal
+    tradeId: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<GetTradesTradeIdEnriched200>({
-    url: `/trades/${tradeId}/enriched`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<GetTradesTradeIdEnriched200>(
+      {url: `/trades/${tradeId}/enriched`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getGetTradesTradeIdEnrichedQueryKey = (tradeId?: string) => {
-  return [`/trades/${tradeId}/enriched`] as const;
-};
 
-export const getGetTradesTradeIdEnrichedQueryOptions = <
-  TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-  TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse,
->(
-  tradeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-        TError,
-        TData
-      >
-    >;
-  }
+
+export const getGetTradesTradeIdEnrichedQueryKey = (tradeId?: string,) => {
+    return [
+    `/trades/${tradeId}/enriched`
+    ] as const;
+    }
+
+    
+export const getGetTradesTradeIdEnrichedQueryOptions = <TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse>(tradeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData>>, }
 ) => {
-  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetTradesTradeIdEnrichedQueryKey(tradeId);
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getTradesTradeIdEnriched>>
-  > = ({ signal }) => getTradesTradeIdEnriched(tradeId, signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetTradesTradeIdEnrichedQueryKey(tradeId);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!tradeId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetTradesTradeIdEnrichedQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getTradesTradeIdEnriched>>
->;
-export type GetTradesTradeIdEnrichedQueryError =
-  | BadRequestResponse
-  | UnauthorizedResponse
-  | NotFoundResponse;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>> = ({ signal }) => getTradesTradeIdEnriched(tradeId, signal);
 
-export function useGetTradesTradeIdEnriched<
-  TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-  TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse,
->(
-  tradeId: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(tradeId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetTradesTradeIdEnrichedQueryResult = NonNullable<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>>
+export type GetTradesTradeIdEnrichedQueryError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse
+
+
+export function useGetTradesTradeIdEnriched<TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse>(
+ tradeId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
           TError,
           Awaited<ReturnType<typeof getTradesTradeIdEnriched>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetTradesTradeIdEnriched<
-  TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-  TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse,
->(
-  tradeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTradesTradeIdEnriched<TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse>(
+ tradeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
           TError,
           Awaited<ReturnType<typeof getTradesTradeIdEnriched>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetTradesTradeIdEnriched<
-  TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-  TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse,
->(
-  tradeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-        TError,
-        TData
-      >
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetTradesTradeIdEnriched<TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse>(
+ tradeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get enriched trade
  */
 
-export function useGetTradesTradeIdEnriched<
-  TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-  TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse,
->(
-  tradeId: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getTradesTradeIdEnriched>>,
-        TError,
-        TData
-      >
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetTradesTradeIdEnrichedQueryOptions(
-    tradeId,
-    options
-  );
+export function useGetTradesTradeIdEnriched<TData = Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError = BadRequestResponse | UnauthorizedResponse | NotFoundResponse>(
+ tradeId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTradesTradeIdEnriched>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getGetTradesTradeIdEnrichedQueryOptions(tradeId,options)
 
-  query.queryKey = queryOptions.queryKey;
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
 }
+
+
+
+

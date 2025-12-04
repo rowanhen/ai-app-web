@@ -6,9 +6,6 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Trade } from './trade';
+import type { EnrichedTradeAllOf } from './enrichedTradeAllOf';
 
-export type GetTrades200Data = {
-  trades?: Trade[];
-  /** Number of trades */
-  count?: number;
-};
+export type EnrichedTrade = Trade & EnrichedTradeAllOf;

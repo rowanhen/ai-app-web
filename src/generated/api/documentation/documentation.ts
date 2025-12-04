@@ -5,6 +5,9 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
+import {
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -14,138 +17,108 @@ import type {
   QueryKey,
   UndefinedInitialDataOptions,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
+  UseQueryResult
+} from '@tanstack/react-query';
 
-import type { GetApiDocsJson200 } from ".././schemas";
+import type {
+  GetApiDocsJson200
+} from '.././schemas';
 
-import { customInstance } from "../../../app/config/mutator";
+import { customInstance } from '../../../app/config/mutator';
+
+
+
 
 /**
  * Returns the OpenAPI 3.0 specification for the API
  * @summary Get OpenAPI specification in JSON format
  */
-export const getApiDocsJson = (signal?: AbortSignal) => {
-  return customInstance<GetApiDocsJson200>({
-    url: `/api-docs/json`,
-    method: "GET",
-    signal,
-  });
-};
+export const getApiDocsJson = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetApiDocsJson200>(
+      {url: `/api-docs/json`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
 
 export const getGetApiDocsJsonQueryKey = () => {
-  return [`/api-docs/json`] as const;
-};
+    return [
+    `/api-docs/json`
+    ] as const;
+    }
 
-export const getGetApiDocsJsonQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiDocsJson>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getGetApiDocsJsonQueryOptions = <TData = Awaited<ReturnType<typeof getApiDocsJson>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>>, }
+) => {
 
-  const queryKey = queryOptions?.queryKey ?? getGetApiDocsJsonQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDocsJson>>> = ({
-    signal,
-  }) => getApiDocsJson(signal);
+  const queryKey =  queryOptions?.queryKey ?? getGetApiDocsJsonQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiDocsJson>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
+  
 
-export type GetApiDocsJsonQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiDocsJson>>
->;
-export type GetApiDocsJsonQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiDocsJson>>> = ({ signal }) => getApiDocsJson(signal);
 
-export function useGetApiDocsJson<
-  TData = Awaited<ReturnType<typeof getApiDocsJson>>,
-  TError = unknown,
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>
-    > &
-      Pick<
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiDocsJsonQueryResult = NonNullable<Awaited<ReturnType<typeof getApiDocsJson>>>
+export type GetApiDocsJsonQueryError = unknown
+
+
+export function useGetApiDocsJson<TData = Awaited<ReturnType<typeof getApiDocsJson>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDocsJson>>,
           TError,
           Awaited<ReturnType<typeof getApiDocsJson>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetApiDocsJson<
-  TData = Awaited<ReturnType<typeof getApiDocsJson>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>
-    > &
-      Pick<
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiDocsJson<TData = Awaited<ReturnType<typeof getApiDocsJson>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiDocsJson>>,
           TError,
           Awaited<ReturnType<typeof getApiDocsJson>>
-        >,
-        "initialData"
-      >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetApiDocsJson<
-  TData = Awaited<ReturnType<typeof getApiDocsJson>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiDocsJson<TData = Awaited<ReturnType<typeof getApiDocsJson>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
  * @summary Get OpenAPI specification in JSON format
  */
 
-export function useGetApiDocsJson<
-  TData = Awaited<ReturnType<typeof getApiDocsJson>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>
-    >;
-  },
-  queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetApiDocsJsonQueryOptions(options);
+export function useGetApiDocsJson<TData = Awaited<ReturnType<typeof getApiDocsJson>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiDocsJson>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getGetApiDocsJsonQueryOptions(options)
 
-  query.queryKey = queryOptions.queryKey;
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
 }
+
+
+
+

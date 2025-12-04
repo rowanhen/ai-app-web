@@ -10,24 +10,44 @@ import * as zod from 'zod';
 
 /**
  * Fetches trades from Hyperliquid and stores them in the database.
-Requires an authenticated session (user must have linked OAuth account).
+Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
 
  * @summary Get user trades
  */
 export const getTradesResponse = zod.object({
-  "success": zod.boolean().optional(),
+  "success": zod.boolean(),
   "data": zod.object({
   "trades": zod.array(zod.object({
-
+  "tradeId": zod.uuid().describe('Unique trade identifier'),
+  "walletId": zod.uuid().describe('Wallet identifier'),
+  "transactionHash": zod.string().describe('Blockchain transaction hash'),
+  "blockchain": zod.string().describe('Blockchain name'),
+  "timestamp": zod.string().describe('Trade timestamp as bigint string'),
+  "coin": zod.string().describe('Trading pair coin'),
+  "px": zod.string().describe('Price as numeric string'),
+  "sz": zod.string().describe('Size as numeric string'),
+  "side": zod.string().describe('Trade side (A/B)'),
+  "tradeType": zod.string().describe('Trade type (perp/spot)'),
+  "oid": zod.string().nullish().describe('Order ID as bigint string'),
+  "tid": zod.string().nullish().describe('Trade ID as bigint string'),
+  "startPosition": zod.string().nullish().describe('Start position as numeric string'),
+  "dir": zod.string().nullish().describe('Direction'),
+  "closedPnl": zod.string().nullish().describe('Closed PnL as numeric string'),
+  "crossed": zod.boolean().nullish().describe('Whether trade was crossed'),
+  "fee": zod.string().nullish().describe('Fee as numeric string'),
+  "feeToken": zod.string().nullish().describe('Fee token'),
+  "builderFee": zod.string().nullish().describe('Builder fee as numeric string'),
+  "createdAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was created'),
+  "updatedAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was last updated')
 })).optional(),
-  "count": zod.number().optional()
-}).optional()
+  "count": zod.number().optional().describe('Number of trades')
+})
 })
 
 /**
  * Get enriched trade with Pyth price data.
-Requires an authenticated session (user must have linked OAuth account).
+Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
 
  * @summary Get enriched trade
@@ -37,9 +57,44 @@ export const getTradesTradeIdEnrichedParams = zod.object({
 })
 
 export const getTradesTradeIdEnrichedResponse = zod.object({
-  "success": zod.boolean().optional(),
+  "success": zod.boolean(),
   "data": zod.object({
-
+  "tradeId": zod.uuid().describe('Unique trade identifier'),
+  "walletId": zod.uuid().describe('Wallet identifier'),
+  "transactionHash": zod.string().describe('Blockchain transaction hash'),
+  "blockchain": zod.string().describe('Blockchain name'),
+  "timestamp": zod.string().describe('Trade timestamp as bigint string'),
+  "coin": zod.string().describe('Trading pair coin'),
+  "px": zod.string().describe('Price as numeric string'),
+  "sz": zod.string().describe('Size as numeric string'),
+  "side": zod.string().describe('Trade side (A/B)'),
+  "tradeType": zod.string().describe('Trade type (perp/spot)'),
+  "oid": zod.string().nullish().describe('Order ID as bigint string'),
+  "tid": zod.string().nullish().describe('Trade ID as bigint string'),
+  "startPosition": zod.string().nullish().describe('Start position as numeric string'),
+  "dir": zod.string().nullish().describe('Direction'),
+  "closedPnl": zod.string().nullish().describe('Closed PnL as numeric string'),
+  "crossed": zod.boolean().nullish().describe('Whether trade was crossed'),
+  "fee": zod.string().nullish().describe('Fee as numeric string'),
+  "feeToken": zod.string().nullish().describe('Fee token'),
+  "builderFee": zod.string().nullish().describe('Builder fee as numeric string'),
+  "createdAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was created'),
+  "updatedAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was last updated')
+}).and(zod.object({
+  "pythPrices": zod.object({
+  "open": zod.object({
+  "price": zod.string().describe('Price value as string'),
+  "conf": zod.string().describe('Confidence value as string'),
+  "expo": zod.number().describe('Exponent for price'),
+  "publishTime": zod.number().describe('Publish timestamp')
+}).optional(),
+  "close": zod.object({
+  "price": zod.string().describe('Price value as string'),
+  "conf": zod.string().describe('Confidence value as string'),
+  "expo": zod.number().describe('Exponent for price'),
+  "publishTime": zod.number().describe('Publish timestamp')
 }).optional()
+})
+}))
 })
 

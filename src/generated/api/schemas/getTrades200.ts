@@ -8,6 +8,6 @@
 import type { GetTrades200Data } from './getTrades200Data';
 
 export type GetTrades200 = {
-  success?: boolean;
-  data?: GetTrades200Data;
+  success: boolean;
+  data: GetTrades200Data;
 };

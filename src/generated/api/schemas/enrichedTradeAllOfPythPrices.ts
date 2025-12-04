@@ -5,9 +5,9 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
-import type { PostAuthLogout200Data } from './postAuthLogout200Data';
+import type { PythPriceData } from './pythPriceData';
 
-export type PostAuthLogout200 = {
-  success: boolean;
-  data: PostAuthLogout200Data;
+export type EnrichedTradeAllOfPythPrices = {
+  open?: PythPriceData;
+  close?: PythPriceData;
 };

@@ -1,4 +1,6 @@
 /// <reference types="vite/client" />
+import DebugGrid from "@components-lib/DebugGrid";
+import DefaultActionBar from "@components-lib/page/DefaultActionBar";
 import DefaultLayout from "@components-lib/page/DefaultLayout";
 import { useGlobalNavigationHotkeys } from "@modules-lib/hotkeys/use-global-navigation-hotkeys";
 import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
@@ -61,6 +63,8 @@ function RootDocument() {
         <SessionInitializer>
           <DefaultLayout previewPixelSRC="https://intdev-global.s3.us-west-2.amazonaws.com/template-app-icon.png">
             <Outlet />
+            <DefaultActionBar />
+            <DebugGrid />
           </DefaultLayout>
         </SessionInitializer>
       </Providers>

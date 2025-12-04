@@ -49,9 +49,9 @@ export const getAuthMeResponse = zod.object({
  * @summary Logout user
  */
 export const postAuthLogoutResponse = zod.object({
-  "success": zod.boolean().optional(),
+  "success": zod.boolean(),
   "data": zod.object({
   "message": zod.string().optional()
-}).optional()
+})
 })
 

@@ -458,3 +458,26 @@ export const findFocusableDescendant = (
 
   return null;
 };
+
+export function formatCryptoAddress(
+  address: string,
+  startChars: number = 6,
+  endChars: number = 4
+): string {
+  if (isEmpty(address)) {
+    return "";
+  }
+
+  const addressStr = address.toString();
+
+  // If address is shorter than the combined length, return as-is
+  if (addressStr.length <= startChars + endChars) {
+    return addressStr;
+  }
+
+  // Extract start and end portions
+  const start = addressStr.substring(0, startChars);
+  const end = addressStr.substring(addressStr.length - endChars);
+
+  return `${start}...${end}`;
+}

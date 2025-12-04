@@ -97,12 +97,7 @@ const DataTable: React.FC<TableProps> = ({ data }) => {
     <table className={styles.root} ref={tableRef} onKeyDown={handleKeyDown}>
       <tbody className={styles.body}>
         {data.map((row, rowIndex) => (
-          <tr
-            key={rowIndex}
-            className={styles.row}
-            tabIndex={0}
-            onClick={() => alert("testing")}
-          >
+          <tr key={rowIndex} className={styles.row} tabIndex={0}>
             {row.map((cellContent, colIndex) => {
               let backgroundColor: string;
               if (rowIndex === 0) {
@@ -113,7 +108,9 @@ const DataTable: React.FC<TableProps> = ({ data }) => {
                   targetColorHeader,
                   lightnessFactor
                 );
-                backgroundColor = `rgba(${newColor.r}, ${newColor.g}, ${newColor.b}, ${newColor.a.toFixed(2)})`;
+                backgroundColor = `rgba(${newColor.r}, ${newColor.g}, ${
+                  newColor.b
+                }, ${newColor.a.toFixed(2)})`;
               } else {
                 const numRows = data.length - 1;
                 const maxIndexSum = numRows - 1 + (row.length - 1) || 1;
@@ -124,7 +121,9 @@ const DataTable: React.FC<TableProps> = ({ data }) => {
                   targetColorData,
                   lightnessFactor
                 );
-                backgroundColor = `rgba(${newColor.r}, ${newColor.g}, ${newColor.b}, ${newColor.a.toFixed(2)})`;
+                backgroundColor = `rgba(${newColor.r}, ${newColor.g}, ${
+                  newColor.b
+                }, ${newColor.a.toFixed(2)})`;
               }
               return (
                 <td

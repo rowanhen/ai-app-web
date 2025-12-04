@@ -5,9 +5,9 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
-import type { PostAuthLogout200Data } from './postAuthLogout200Data';
 
-export type PostAuthLogout200 = {
-  success: boolean;
-  data: PostAuthLogout200Data;
+export type DeleteWalletsWalletId200Data = {
+  message?: string;
+  /** The wallet ID that was unlinked */
+  walletId?: string;
 };
