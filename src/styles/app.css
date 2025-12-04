@@ -1,30 +1,37 @@
-@import 'tailwindcss';
-
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+Base border colors for all elements *,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: var(--color-gray-20, currentcolor);
 }
 
-@layer base {
-  html {
-    color-scheme: light dark;
-  }
+html {
+  color-scheme: light dark;
+}
 
-  * {
-    @apply border-gray-200 dark:border-gray-800;
-  }
+/* Border colors - light and dark mode */
+* {
+  border-color: var(--color-gray-20);
+}
 
-  html,
-  body {
-    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
-  }
+body.theme-dark * {
+  border-color: var(--color-gray-80);
+}
 
-  .using-mouse * {
-    outline: none !important;
-  }
+/* Base text and background colors */
+html,
+body {
+  color: var(--color-gray-90);
+  background-color: var(--color-gray-10);
+}
+
+body.theme-dark html,
+body.theme-dark body {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-20);
+}
+
+.using-mouse * {
+  outline: none !important;
 }

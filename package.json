@@ -7,6 +7,7 @@
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
     "start": "node .output/server/index.mjs",
+    "check-types": "tsc --noEmit",
     "generate:api": "orval"
   },
   "dependencies": {
@@ -14,11 +15,11 @@
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-router": "^1.139.14",
     "@tanstack/react-router-devtools": "^1.139.14",
-    "@tanstack/react-start": "^1.139.14",
     "axios": "^1.13.2",
     "msw": "^2.12.4",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "sass": "^1.94.2",
     "zod": "^4.1.13"
   },
   "devDependencies": {

@@ -1,6 +1,9 @@
 /// <reference types="vite/client" />
-import { HeadContent, createRootRoute } from "@tanstack/react-router";
-import * as React from "react";
+import DefaultLayout from "@components-lib/page/DefaultLayout";
+import { useGlobalNavigationHotkeys } from "@modules-lib/hotkeys/use-global-navigation-hotkeys";
+import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
+import Providers from "~/components/Providers";
+import { SessionInitializer } from "~/components/SessionInitializer";
 import appCss from "~/styles/app.css?url";
 import globalFontsCss from "~/styles/global-fonts.css?url";
 import globalCss from "~/styles/global.css?url";
@@ -45,15 +48,22 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  pendingComponent: () => <div>Loading...</div>,
+  notFoundComponent: () => <div>Not Found</div>,
 });
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument() {
+  useGlobalNavigationHotkeys();
   return (
-    <html>
-      <head>
-        <HeadContent />
-      </head>
-      <body>{children}</body>
-    </html>
+    <>
+      <HeadContent />
+      <Providers>
+        <SessionInitializer>
+          <DefaultLayout previewPixelSRC="https://intdev-global.s3.us-west-2.amazonaws.com/template-app-icon.png">
+            <Outlet />
+          </DefaultLayout>
+        </SessionInitializer>
+      </Providers>
+    </>
   );
 }

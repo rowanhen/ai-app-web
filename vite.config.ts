@@ -1,19 +1,20 @@
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import { defineConfig } from 'vite'
-import tsConfigPaths from 'vite-tsconfig-paths'
-import viteReact from '@vitejs/plugin-react'
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   server: {
     port: 3000,
   },
+  css: {
+    modules: {
+      localsConvention: "camelCase",
+    },
+  },
   plugins: [
     tsConfigPaths({
-      projects: ['./tsconfig.json'],
-    }),
-    tanstackStart({
-      srcDirectory: 'src',
+      projects: ["./tsconfig.json"],
     }),
     viteReact(),
   ],
-})
+});

@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "src/vite-env.d.ts"],
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
@@ -14,12 +14,14 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "@/*": ["./src/*"],
-      "@common/*": ["./src/common/*"],
+      "@common-lib/*": ["./src/components-lib/common/*"],
+      "@components-lib/*": ["./src/components-lib/components/*"],
+      "@modules-lib/*": ["./src/components-lib/modules/*"],
       "@components/*": ["./src/components/*"],
-      "@config/*": ["src/app/config/*"],
-      "@generated/*": ["./src/generated/*"]
+      "@config/*": ["./src/app/config/*"],
+      "@generated/*": ["./src/app/generated/*"],
+      "~/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "noEmit": true
   }
