@@ -1,6 +1,5 @@
 import axios from "axios";
 import { envConfig } from "~/env";
-import { getSessionUserId } from "./session";
 
 const API_BASE_URL = envConfig().API_URL;
 
@@ -10,23 +9,10 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
   timeout: 30000, // 30 seconds
-  withCredentials: true, // Important for session cookies
+  withCredentials: true, // Important: sends session cookies automatically
 });
-
-// Request interceptor for adding auth tokens, etc.
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Forward userId/session vars to backend
-    const userId = getSessionUserId();
-    if (userId) {
-      config.headers["X-User-Id"] = userId;
-    }
-
-    // Add any auth tokens or custom headers here
-    // const token = getAuthToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
     return config;
   },
   (error) => {

@@ -14,13 +14,23 @@ function Home() {
 
   return (
     <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+        padding: "2rem",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       {/* Header */}
-      <header>
-        <Text style={{ margin: 0, fontSize: "1.25rem", fontWeight: "bold" }}>
-          product
-        </Text>
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text>product</Text>
         <Link to="/account" style={{ textDecoration: "none" }}>
           <Button theme="SECONDARY">account</Button>
         </Link>

@@ -1,24 +1,34 @@
 import * as React from "react";
-import { useInitializeSession } from "~/app/hooks/useInitializeSession";
+import { setSessionUserId } from "~/app/config/session";
+import { usePostAuthInitialize } from "~/generated/api/authentication/authentication";
 
 /**
- * Component that attempts to initialize the session on app load using the generated API
- * If the API is unavailable, the app will still render without blocking
+ * Component that initializes the session on app load using the generated API mutation hook
  */
 export function SessionInitializer({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Attempt to initialize session, but don't block rendering if it fails
-  const { isError, error } = useInitializeSession();
+  const { mutate } = usePostAuthInitialize({
+    mutation: {
+      onSuccess: (response) => {
+        // Store userId when session is successfully initialized
+        if (response?.data?.userId) {
+          setSessionUserId(response.data.userId);
+        }
+      },
+      onError: (error) => {
+        // Handle errors gracefully - log but don't block the app
+        console.warn("Session initialization failed:", error);
+      },
+    },
+  });
 
-  // Log errors for debugging but don't block the app
+  // Trigger session initialization on mount
   React.useEffect(() => {
-    if (isError) {
-      console.warn("Session initialization failed:", error);
-    }
-  }, [isError, error]);
+    mutate();
+  }, [mutate]);
 
   return <>{children}</>;
 }

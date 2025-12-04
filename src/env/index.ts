@@ -2,27 +2,50 @@ import { local } from "./local";
 import { production } from "./production";
 import { staging } from "./staging";
 
-export const envConfig = () => {
-  // Check if we're in a browser environment
-  if (typeof window !== "undefined") {
-    if (window.location.pathname.includes("local")) {
-      return local;
-    } else if (window.location.pathname.includes("staging")) {
-      return staging;
-    } else {
-      return production;
-    }
+/**
+ * Get the current environment from environment variables.
+ * Requires VITE_ENVIRONMENT to be set (no fallbacks).
+ */
+function getEnvironment(): string {
+  let env: string | undefined;
+
+  if (
+    typeof window !== "undefined" &&
+    typeof import.meta !== "undefined" &&
+    import.meta.env
+  ) {
+    // Client-side: check Vite environment variables
+    env = import.meta.env.VITE_ENVIRONMENT;
+  } else if (typeof process !== "undefined" && process.env) {
+    // Server-side: check Node.js environment variables
+    env = process.env.VITE_ENVIRONMENT || process.env.ENVIRONMENT;
   }
 
-  // Server-side rendering or Node.js environment
-  // Use environment variable or default to production
-  const env = process.env.NODE_ENV || process.env.ENVIRONMENT || "production";
+  if (!env) {
+    throw new Error(
+      "VITE_ENVIRONMENT or ENVIRONMENT must be set. " +
+        "Valid values: 'local', 'staging', 'production'. " +
+        "Set it in your .env file or pass it as an environment variable."
+    );
+  }
 
-  if (env === "development" || env === "local") {
+  return env.toLowerCase();
+}
+
+export const envConfig = () => {
+  const env = getEnvironment();
+
+  // Return appropriate config based on environment
+  if (env === "local" || env === "development" || env === "dev") {
     return local;
   } else if (env === "staging") {
     return staging;
-  } else {
+  } else if (env === "production" || env === "prod") {
     return production;
+  } else {
+    throw new Error(
+      `Invalid environment: "${env}". ` +
+        "Valid values are: 'local', 'staging', 'production'"
+    );
   }
 };
