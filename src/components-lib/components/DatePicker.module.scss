@@ -59,4 +59,23 @@
   &:focus {
     background: var(--theme-focused-foreground);
   }
+
+  &:hover {
+    background: var(--theme-border);
+  }
+
+  &.selected {
+    background: var(--theme-focused-foreground);
+    font-weight: bold;
+  }
+}
+
+.dayCell {
+  padding: 0 1ch 0 1ch;
+}
+
+.label {
+  padding: 0.5rem 1ch;
+  font-weight: bold;
+  text-align: center;
 }

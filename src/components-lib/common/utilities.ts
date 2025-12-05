@@ -481,3 +481,51 @@ export function formatCryptoAddress(
 
   return `${start}...${end}`;
 }
+
+/**
+ * Generate a simple hash from a string seed
+ */
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash);
+}
+
+/**
+ * Generate a random gradient background based on a seed string.
+ * The same seed will always produce the same gradient.
+ *
+ * @param seed - The seed string (e.g., user ID)
+ * @returns CSS gradient string (e.g., "linear-gradient(135deg, #ff6b6b, #4ecdc4)")
+ */
+export function generateGradientFromSeed(seed: string): string {
+  if (!seed) {
+    // Default gradient if no seed provided
+    return "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+  }
+
+  const hash = hashString(seed);
+
+  // Generate two colors from the hash
+  // Use different parts of the hash to create distinct colors
+  const hue1 = hash % 360;
+  const hue2 = (hash * 7) % 360; // Multiply by prime to get different hue
+
+  // Use moderate saturation and lightness for nice gradients
+  const saturation = 60 + (hash % 20); // 60-80%
+  const lightness1 = 50 + (hash % 15); // 50-65%
+  const lightness2 = 45 + ((hash * 3) % 20); // 45-65%
+
+  // Generate HSL colors
+  const color1 = `hsl(${hue1}, ${saturation}%, ${lightness1}%)`;
+  const color2 = `hsl(${hue2}, ${saturation + 10}%, ${lightness2}%)`;
+
+  // Generate angle from hash (0-360 degrees)
+  const angle = hash % 360;
+
+  return `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+}

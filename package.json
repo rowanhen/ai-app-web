@@ -19,7 +19,8 @@
     "start:staging": "ENVIRONMENT=staging vite serve",
     "start:production": "ENVIRONMENT=production vite serve",
     "check-types": "tsc --noEmit",
-    "generate:api": "orval"
+    "generate:api": "orval",
+    "generate:routes": "tsr generate"
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
@@ -34,6 +35,8 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@tanstack/router-cli": "^1.139.14",
+    "@tanstack/router-plugin": "^1.139.14",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

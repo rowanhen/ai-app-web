@@ -5,9 +5,9 @@
  * API documentation for AI App Node
  * OpenAPI spec version: 1.0.0
  */
-import type { GetUserTradesResponse } from './getUserTradesResponse';
+import type { PostTradesSync200Data } from './postTradesSync200Data';
 
-export type GetTrades200 = {
+export type PostTradesSync200 = {
   success: boolean;
-  data: GetUserTradesResponse;
+  data: PostTradesSync200Data;
 };

@@ -1,9 +1,12 @@
 import styles from "@components-lib/BreadCrumbs.module.scss";
+import { CustomLink } from "@components/CustomLink";
+import type { LinkProps } from "@tanstack/react-router";
 
 import * as React from "react";
 
 interface BreadCrumbsItem {
   url?: string;
+  to?: LinkProps["to"];
   name: string;
 }
 
@@ -15,16 +18,19 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ items }) => {
   return (
     <nav aria-label="breadcrumb" className={styles.root}>
       {items.map((item, index) => {
-        const linkElement = (
-          <a
+        const linkElement = item.to || item.url ? (
+          <CustomLink
             className={styles.link}
+            to={item.to}
             href={item.url}
-            target="_blank"
+            target={item.url ? "_blank" : undefined}
             tabIndex={0}
             role="link"
           >
             {item.name}
-          </a>
+          </CustomLink>
+        ) : (
+          <span className={styles.link}>{item.name}</span>
         );
 
         return (

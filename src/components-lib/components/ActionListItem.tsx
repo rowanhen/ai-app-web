@@ -1,4 +1,6 @@
 import styles from "@components-lib/ActionListItem.module.scss";
+import { CustomLink } from "@components/CustomLink";
+import type { LinkProps } from "@tanstack/react-router";
 
 import * as React from "react";
 
@@ -7,17 +9,19 @@ interface ActionListItemProps {
   icon?: React.ReactNode;
   children?: React.ReactNode;
   href?: string;
+  to?: LinkProps["to"];
   target?: string;
   onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
 }
 
 const ActionListItem: React.FC<ActionListItemProps> = (props) => {
-  const { href, target, onClick, children, icon, style } = props;
+  const { href, to, target, onClick, children, icon, style } = props;
 
-  if (href) {
+  if (href || to) {
     return (
-      <a
+      <CustomLink
         className={styles.item}
+        to={to}
         href={href}
         target={target}
         style={style}
@@ -26,7 +30,7 @@ const ActionListItem: React.FC<ActionListItemProps> = (props) => {
       >
         <figure className={styles.icon}>{icon}</figure>
         <span className={styles.text}>{children}</span>
-      </a>
+      </CustomLink>
     );
   }
 

@@ -1,4 +1,4 @@
-import Button from "@components-lib/Button";
+import ActionButton from "@components-lib/ActionButton";
 import Card from "@components-lib/Card";
 import Input from "@components-lib/Input";
 import ModalAlert from "@components-lib/modals/ModalAlert";
@@ -7,7 +7,7 @@ import Text from "@components-lib/Text";
 import TradesTable from "@components/TradesTable";
 import UserWallets from "@components/UserWallets";
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import * as React from "react";
 import { usePostWallets } from "~/generated/api/wallets/wallets";
 
@@ -78,11 +78,11 @@ function Home() {
         minHeight: "100vh",
         width: "100%",
         padding: "2rem",
+        gap: "2rem",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Header */}
       <header
         style={{
           display: "flex",
@@ -91,9 +91,6 @@ function Home() {
         }}
       >
         <Text>product</Text>
-        <Link to="/account" style={{ textDecoration: "none" }}>
-          <Button theme="SECONDARY">account</Button>
-        </Link>
       </header>
 
       {/* Main Content - Centered Card */}
@@ -103,26 +100,24 @@ function Home() {
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
               gap: "1rem",
               marginTop: "1rem",
             }}
           >
-            <Input
-              placeholder="0x..."
-              value={walletAddress}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setWalletAddress(e.target.value)
-              }
-              onKeyPress={handleKeyPress}
-              disabled={addWalletMutation.isPending}
-            />
-            <Button
-              onClick={handleSubmit}
-              disabled={addWalletMutation.isPending || !walletAddress.trim()}
-            >
+            <div style={{ flex: 1 }}>
+              <Input
+                placeholder="0x..."
+                value={walletAddress}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setWalletAddress(e.target.value)
+                }
+                onKeyDown={handleKeyPress}
+                disabled={addWalletMutation.isPending}
+              />
+            </div>
+            <ActionButton onClick={handleSubmit}>
               {addWalletMutation.isPending ? "Adding..." : "Add Wallet"}
-            </Button>
+            </ActionButton>
           </div>
         </Card>
         <UserWallets />

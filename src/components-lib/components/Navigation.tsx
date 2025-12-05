@@ -1,10 +1,13 @@
 import styles from "@components-lib/Navigation.module.scss";
+import { CustomLink } from "@components/CustomLink";
+import type { LinkProps } from "@tanstack/react-router";
 
 import * as React from "react";
 
 interface NavigationProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
   logoHref?: string;
+  logoTo?: LinkProps["to"];
   logoTarget?: React.HTMLAttributeAnchorTarget;
   onClickLogo?: React.MouseEventHandler<HTMLButtonElement>;
   logo?: React.ReactNode;
@@ -15,6 +18,7 @@ interface NavigationProps extends React.HTMLAttributes<HTMLElement> {
 const Navigation: React.FC<NavigationProps> = ({
   children,
   logoHref,
+  logoTo,
   logoTarget,
   onClickLogo,
   logo,
@@ -29,13 +33,16 @@ const Navigation: React.FC<NavigationProps> = ({
         {logo}
       </button>
     );
-  }
-
-  if (logoHref) {
+  } else if (logoTo || logoHref) {
     logoElement = (
-      <a href={logoHref} className={styles.logo} target={logoTarget}>
+      <CustomLink
+        to={logoTo}
+        href={logoHref}
+        className={styles.logo}
+        target={logoTarget}
+      >
         {logo}
-      </a>
+      </CustomLink>
     );
   }
 

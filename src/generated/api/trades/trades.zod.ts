@@ -9,12 +9,21 @@ import * as zod from 'zod';
 
 
 /**
- * Fetches trades from Hyperliquid and stores them in the database.
+ * Returns all trades for the user from the database.
+Does not sync with Hyperliquid - use POST /trades/sync to update trades.
 Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
+Can be filtered by startDate, endDate, and coin query parameters.
+The coin parameter accepts multiple values (e.g., ?coin=BTC&coin=ETH).
 
  * @summary Get user trades
  */
+export const getTradesQueryParams = zod.object({
+  "startDate": zod.string().optional().describe('Start date filter (ISO date string YYYY-MM-DD or timestamp in milliseconds)'),
+  "endDate": zod.string().optional().describe('End date filter (ISO date string YYYY-MM-DD or timestamp in milliseconds)'),
+  "coin": zod.array(zod.string()).optional().describe('Filter by coin symbol(s). Can specify multiple coins (e.g., ?coin=BTC&coin=ETH)')
+})
+
 export const getTradesResponse = zod.object({
   "success": zod.boolean(),
   "data": zod.object({
@@ -40,8 +49,48 @@ export const getTradesResponse = zod.object({
   "builderFee": zod.string().nullish().describe('Builder fee as numeric string'),
   "createdAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was created'),
   "updatedAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was last updated')
-})).optional(),
-  "count": zod.number().optional().describe('Number of trades')
+})).describe('List of trades'),
+  "count": zod.number().describe('Number of trades returned'),
+  "totalPnl": zod.number().describe('Total PnL calculated from all returned trades')
+})
+})
+
+/**
+ * Fetches trades from Hyperliquid API and stores/updates them in the database.
+Returns only newly created trades (duplicates are skipped).
+Requires a session. If user has authenticated=true, OAuth is required.
+User ID is obtained from the session cookie.
+
+ * @summary Sync user trades from Hyperliquid
+ */
+export const postTradesSyncResponse = zod.object({
+  "success": zod.boolean(),
+  "data": zod.object({
+  "newTrades": zod.array(zod.object({
+  "tradeId": zod.uuid().describe('Unique trade identifier'),
+  "walletId": zod.uuid().describe('Wallet identifier'),
+  "transactionHash": zod.string().describe('Blockchain transaction hash'),
+  "blockchain": zod.string().describe('Blockchain name'),
+  "timestamp": zod.string().describe('Trade timestamp as bigint string'),
+  "coin": zod.string().describe('Trading pair coin'),
+  "px": zod.string().describe('Price as numeric string'),
+  "sz": zod.string().describe('Size as numeric string'),
+  "side": zod.string().describe('Trade side (A/B)'),
+  "tradeType": zod.string().describe('Trade type (perp/spot)'),
+  "oid": zod.string().nullish().describe('Order ID as bigint string'),
+  "tid": zod.string().nullish().describe('Trade ID as bigint string'),
+  "startPosition": zod.string().nullish().describe('Start position as numeric string'),
+  "dir": zod.string().nullish().describe('Direction'),
+  "closedPnl": zod.string().nullish().describe('Closed PnL as numeric string'),
+  "crossed": zod.boolean().nullish().describe('Whether trade was crossed'),
+  "fee": zod.string().nullish().describe('Fee as numeric string'),
+  "feeToken": zod.string().nullish().describe('Fee token'),
+  "builderFee": zod.string().nullish().describe('Builder fee as numeric string'),
+  "createdAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was created'),
+  "updatedAt": zod.iso.datetime({}).nullish().describe('Timestamp when trade was last updated')
+})).optional().describe('Newly created trades (duplicates are excluded)'),
+  "count": zod.number().optional().describe('Number of new trades created'),
+  "message": zod.string().optional()
 })
 })
 

@@ -2,11 +2,11 @@ import Card from "@components-lib/Card";
 import Text from "@components-lib/Text";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/account")({
-  component: Account,
+export const Route = createFileRoute("/analytics")({
+  component: Analytics,
 });
 
-function Account() {
+function Analytics() {
   return (
     <div
       style={{
@@ -28,7 +28,7 @@ function Account() {
       </header>
 
       <main style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-        <Card title="account"></Card>
+        <Card title="analytics"></Card>
       </main>
     </div>
   );

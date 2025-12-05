@@ -2,6 +2,8 @@
 import DebugGrid from "@components-lib/DebugGrid";
 import DefaultActionBar from "@components-lib/page/DefaultActionBar";
 import DefaultLayout from "@components-lib/page/DefaultLayout";
+import SideNavigationBar from "@components/SideNavigationBar";
+import { SideNavigationBarLayout } from "@components/SideNavigationBar/SideNavigationBarLayout";
 import { useGlobalNavigationHotkeys } from "@modules-lib/hotkeys/use-global-navigation-hotkeys";
 import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
 import Providers from "~/components/Providers";
@@ -62,9 +64,11 @@ function RootDocument() {
       <Providers>
         <SessionInitializer>
           <DefaultLayout previewPixelSRC="https://intdev-global.s3.us-west-2.amazonaws.com/template-app-icon.png">
-            <Outlet />
-            <DefaultActionBar />
-            <DebugGrid />
+            <SideNavigationBarLayout sideNavigationBar={<SideNavigationBar />}>
+              <Outlet />
+              <DefaultActionBar />
+              <DebugGrid />
+            </SideNavigationBarLayout>
           </DefaultLayout>
         </SessionInitializer>
       </Providers>

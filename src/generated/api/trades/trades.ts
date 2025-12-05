@@ -6,16 +6,20 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
@@ -23,8 +27,10 @@ import type {
 import type {
   BadRequestResponse,
   GetTrades200,
+  GetTradesParams,
   GetTradesTradeIdEnriched200,
   NotFoundResponse,
+  PostTradesSync200,
   UnauthorizedResponse
 } from '.././schemas';
 
@@ -34,20 +40,24 @@ import { customInstance } from '../../../app/config/mutator';
 
 
 /**
- * Fetches trades from Hyperliquid and stores them in the database.
+ * Returns all trades for the user from the database.
+Does not sync with Hyperliquid - use POST /trades/sync to update trades.
 Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
+Can be filtered by startDate, endDate, and coin query parameters.
+The coin parameter accepts multiple values (e.g., ?coin=BTC&coin=ETH).
 
  * @summary Get user trades
  */
 export const getTrades = (
-    
+    params?: GetTradesParams,
  signal?: AbortSignal
 ) => {
       
       
       return customInstance<GetTrades200>(
-      {url: `/trades`, method: 'GET', signal
+      {url: `/trades`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -55,23 +65,23 @@ export const getTrades = (
 
 
 
-export const getGetTradesQueryKey = () => {
+export const getGetTradesQueryKey = (params?: GetTradesParams,) => {
     return [
-    `/trades`
+    `/trades`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetTradesQueryOptions = <TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+export const getGetTradesQueryOptions = <TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(params?: GetTradesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTradesQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetTradesQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTrades>>> = ({ signal }) => getTrades(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTrades>>> = ({ signal }) => getTrades(params, signal);
 
       
 
@@ -85,7 +95,7 @@ export type GetTradesQueryError = BadRequestResponse | UnauthorizedResponse
 
 
 export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
+ params: undefined |  GetTradesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTrades>>,
           TError,
@@ -95,7 +105,7 @@ export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TErr
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
+ params?: GetTradesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTrades>>,
           TError,
@@ -105,7 +115,7 @@ export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TErr
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+ params?: GetTradesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 /**
@@ -113,11 +123,11 @@ export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TErr
  */
 
 export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TError = BadRequestResponse | UnauthorizedResponse>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
+ params?: GetTradesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTrades>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetTradesQueryOptions(options)
+  const queryOptions = getGetTradesQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -130,6 +140,73 @@ export function useGetTrades<TData = Awaited<ReturnType<typeof getTrades>>, TErr
 
 
 /**
+ * Fetches trades from Hyperliquid API and stores/updates them in the database.
+Returns only newly created trades (duplicates are skipped).
+Requires a session. If user has authenticated=true, OAuth is required.
+User ID is obtained from the session cookie.
+
+ * @summary Sync user trades from Hyperliquid
+ */
+export const postTradesSync = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<PostTradesSync200>(
+      {url: `/trades/sync`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getPostTradesSyncMutationOptions = <TError = BadRequestResponse | UnauthorizedResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postTradesSync>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postTradesSync>>, TError,void, TContext> => {
+
+const mutationKey = ['postTradesSync'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postTradesSync>>, void> = () => {
+          
+
+          return  postTradesSync()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostTradesSyncMutationResult = NonNullable<Awaited<ReturnType<typeof postTradesSync>>>
+    
+    export type PostTradesSyncMutationError = BadRequestResponse | UnauthorizedResponse
+
+    /**
+ * @summary Sync user trades from Hyperliquid
+ */
+export const usePostTradesSync = <TError = BadRequestResponse | UnauthorizedResponse,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postTradesSync>>, TError,void, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postTradesSync>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getPostTradesSyncMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
  * Get enriched trade with Pyth price data.
 Requires a session. If user has authenticated=true, OAuth is required.
 User ID is obtained from the session cookie.
