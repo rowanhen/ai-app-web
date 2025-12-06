@@ -6,7 +6,7 @@ import Button from "@components-lib/Button";
 import CardDouble from "@components-lib/CardDouble";
 import Checkbox from "@components-lib/Checkbox";
 import Input from "@components-lib/Input";
-import RadioButtonGroup from "@components-lib/RadioButtonGroup";
+import { RadioButtonGroup } from "@components-lib/RadioButton";
 
 function ModalCreateAccount() {
   const { close } = useModals();
