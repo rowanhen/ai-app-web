@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 import DebugGrid from "@components-lib/DebugGrid";
-import DefaultActionBar from "@components-lib/page/DefaultActionBar";
-import DefaultLayout from "@components-lib/page/DefaultLayout";
+import DefaultActionBar from "@components-lib/DefaultActionBar";
+import DefaultLayout from "@components-lib/DefaultLayout";
 import SideNavigationBar from "@components/SideNavigationBar";
 import { SideNavigationBarLayout } from "@components/SideNavigationBar/SideNavigationBarLayout";
 import { useGlobalNavigationHotkeys } from "@modules-lib/hotkeys/use-global-navigation-hotkeys";

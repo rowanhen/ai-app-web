@@ -4,7 +4,7 @@ import * as React from "react";
 
 import ActionButton from "@components-lib/ActionButton";
 import ActionListItem from "@components-lib/ActionListItem";
-import ModalTrigger from "@components-lib/modals/ModalTrigger";
+import ModalTrigger from "@components-lib/Modals/ModalTrigger";
 
 import { useHotkeys } from "@modules-lib/hotkeys";
 

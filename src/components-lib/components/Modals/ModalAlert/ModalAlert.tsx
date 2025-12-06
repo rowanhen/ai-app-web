@@ -1,24 +1,24 @@
-import styles from "@components-lib/modals/ModalCanvasPlatformer.module.scss";
+import styles from "./ModalAlert.module.scss";
 
 import * as Utilities from "@common-lib/utilities";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 
 import Button from "@components-lib/Button";
-import CanvasPlatformer from "@components-lib/CanvasPlatformer";
 import Card from "@components-lib/Card";
 
-interface ModalCanvasPlatformerProps {
+interface ModalAlertProps {
   buttonText?: string | any;
+  message: string;
 }
 
-function ModalCanvasPlatformer({ buttonText }: ModalCanvasPlatformerProps) {
+function ModalAlert({ message, buttonText }: ModalAlertProps) {
   const { close } = useModals();
 
   return (
     <div className={styles.root}>
       <Card title="ALERT">
-        <CanvasPlatformer rows={12} />
+        {message}
         <br />
         <br />
         <Button onClick={() => close()}>
@@ -29,4 +29,4 @@ function ModalCanvasPlatformer({ buttonText }: ModalCanvasPlatformerProps) {
   );
 }
 
-export default ModalCanvasPlatformer;
+export default ModalAlert;

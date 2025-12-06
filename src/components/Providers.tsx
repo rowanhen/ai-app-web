@@ -1,7 +1,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 
-import { ModalProvider } from "@components-lib/page/ModalContext";
+import { ModalProvider } from "@components-lib/Modals/ModalContext";
 import { queryClient } from "@config/queryClient";
 
 interface ProvidersProps {

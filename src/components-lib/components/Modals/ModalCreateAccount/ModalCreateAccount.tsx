@@ -1,6 +1,6 @@
-import styles from "@components-lib/modals/ModalAlert.module.scss";
+import styles from "./ModalCreateAccount.module.scss";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 
 import Button from "@components-lib/Button";
 import CardDouble from "@components-lib/CardDouble";

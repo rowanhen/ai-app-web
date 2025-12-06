@@ -1,6 +1,6 @@
 import ActionButton from "@components-lib/ActionButton";
 import Card from "@components-lib/Card";
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 import Text from "@components-lib/Text";
 import { useQueryClient } from "@tanstack/react-query";
 import {

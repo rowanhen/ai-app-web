@@ -1,24 +1,24 @@
-import styles from "@components-lib/modals/ModalCanvasSnake.module.scss";
+import styles from "./ModalCanvasPlatformer.module.scss";
 
 import * as Utilities from "@common-lib/utilities";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 
 import Button from "@components-lib/Button";
-import CanvasSnake from "@components-lib/CanvasSnake";
+import CanvasPlatformer from "@components-lib/CanvasPlatformer";
 import Card from "@components-lib/Card";
 
-interface ModalCanvasSnakeProps {
+interface ModalCanvasPlatformerProps {
   buttonText?: string | any;
 }
 
-function ModalCanvasSnake({ buttonText }: ModalCanvasSnakeProps) {
+function ModalCanvasPlatformer({ buttonText }: ModalCanvasPlatformerProps) {
   const { close } = useModals();
 
   return (
     <div className={styles.root}>
-      <Card title="CANVAS PLATFORMER">
-        <CanvasSnake rows={12} />
+      <Card title="ALERT">
+        <CanvasPlatformer rows={12} />
         <br />
         <br />
         <Button onClick={() => close()}>
@@ -29,4 +29,4 @@ function ModalCanvasSnake({ buttonText }: ModalCanvasSnakeProps) {
   );
 }
 
-export default ModalCanvasSnake;
+export default ModalCanvasPlatformer;

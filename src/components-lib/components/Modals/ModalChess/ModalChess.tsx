@@ -1,8 +1,8 @@
-import styles from "@components-lib/modals/ModalChess.module.scss";
+import styles from "./ModalChess.module.scss";
 
 import * as Utilities from "@common-lib/utilities";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 import { useHotkeys } from "@modules-lib/hotkeys";
 
 import Button from "@components-lib/Button";

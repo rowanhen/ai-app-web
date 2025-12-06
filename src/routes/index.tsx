@@ -1,8 +1,8 @@
 import ActionButton from "@components-lib/ActionButton";
 import Card from "@components-lib/Card";
 import Input from "@components-lib/Input";
-import ModalAlert from "@components-lib/modals/ModalAlert";
-import { useModals } from "@components-lib/page/ModalContext";
+import ModalAlert from "@components-lib/Modals/ModalAlert";
+import { useModals } from "@components-lib/Modals/ModalContext";
 import Text from "@components-lib/Text";
 import TradesTable from "@components/TradesTable";
 import UserWallets from "@components/UserWallets";

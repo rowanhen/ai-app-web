@@ -1,24 +1,24 @@
-import styles from "@components-lib/modals/ModalAlert.module.scss";
+import styles from "./ModalCanvasSnake.module.scss";
 
 import * as Utilities from "@common-lib/utilities";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 
 import Button from "@components-lib/Button";
 import Card from "@components-lib/Card";
+import DOMSnake from "@components-lib/DOMSnake";
 
-interface ModalAlertProps {
+interface ModalDOMSnakeProps {
   buttonText?: string | any;
-  message: string;
 }
 
-function ModalAlert({ message, buttonText }: ModalAlertProps) {
+function ModalDOMSnake({ buttonText }: ModalDOMSnakeProps) {
   const { close } = useModals();
 
   return (
     <div className={styles.root}>
-      <Card title="ALERT">
-        {message}
+      <Card title="DOM SNAKE">
+        <DOMSnake height={14} width={34} />
         <br />
         <br />
         <Button onClick={() => close()}>
@@ -29,4 +29,4 @@ function ModalAlert({ message, buttonText }: ModalAlertProps) {
   );
 }
 
-export default ModalAlert;
+export default ModalDOMSnake;

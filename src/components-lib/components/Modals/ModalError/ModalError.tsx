@@ -1,6 +1,6 @@
-import styles from "@components-lib/modals/ModalError.module.scss";
+import styles from "./ModalError.module.scss";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 import { useHotkeys } from "@modules-lib/hotkeys";
 
 import ActionButton from "@components-lib/ActionButton";

@@ -1,8 +1,8 @@
-import styles from "@components-lib/page/DefaultLayout.module.scss";
+import styles from "./DefaultLayout.module.scss";
 
 import * as React from "react";
 
-import ModalStack from "@components-lib/ModalStack";
+import ModalStack from "@components-lib/Modals/ModalStack";
 
 interface DefaultLayoutProps {
   previewPixelSRC: string;

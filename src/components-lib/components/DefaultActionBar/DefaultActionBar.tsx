@@ -1,4 +1,4 @@
-import styles from "@components-lib/page/DefaultActionBar.module.scss";
+import styles from "./DefaultActionBar.module.scss";
 
 import * as Utilities from "@common-lib/utilities";
 import * as React from "react";

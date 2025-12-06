@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useModals } from "@components-lib/page/ModalContext";
+import { useModals } from "@components-lib/Modals/ModalContext";
 
 interface ModalTriggerProps {
   children: React.ReactElement<{ onClick?: React.MouseEventHandler }>;
